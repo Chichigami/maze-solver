@@ -1,6 +1,6 @@
 from tkinter import Tk, BOTH, Canvas
 
-class Window ():
+class Window:
     def __init__(self, width, height):
         self.__root = Tk()
         self.__root.title = "Maze"
@@ -15,7 +15,7 @@ class Window ():
 
     def wait_for_close(self):
         self.__isRunning = True
-        while(self.__isRunning):
+        while (self.__isRunning):
             self.redraw()
     
     def close(self):
@@ -24,12 +24,12 @@ class Window ():
     def draw_line(self, line, color):
         line.draw(self.__canvas, color)
 
-class Point():
+class Point:
     def __init__(self, x, y):
         self.x = x
         self.y = y
 
-class Line():
+class Line:
     def __init__(self, point_1: Point, point_2: Point):
         self.p1 = point_1
         self.x1 = self.p1.x
@@ -43,3 +43,23 @@ class Line():
         canvas.create_line(
             self.x1, self.y1, self.y2, self.y2, fill= color, width = 2 
         )
+
+class Cell:
+    def __init__(self, left_wall = True, right_wall = True, top_wall = True, bottom_wall = True, x1, x2, y1, y2, window: Window):
+        self.has_left_wall = left_wall
+        self.has_right_wall = right_wall
+        self.has_top_wall = top_wall
+        self.has_bottom_wall = bottom_wall
+        self._x1 = x1
+        self._y1 = y1
+        self._x2 = x2
+        self._y2 = y2
+        self._win = window
+
+        top_left_point = Point(x1, y1)
+        top_right_point = Point(x2, y1)
+        bottom_left_point = Point(x1, y2)
+        bottom_right_point = Point(x2, y2)
+    
+    def draw(self):
+        

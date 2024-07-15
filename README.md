@@ -1,2 +1,2 @@
 # maze-solver
-Maze Solver Proj
+Maze Solver Proj from Boot Dev

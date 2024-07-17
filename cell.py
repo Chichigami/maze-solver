@@ -1,44 +1,5 @@
-from tkinter import Tk, BOTH, Canvas
-
-class Window:
-    def __init__(self, width, height):
-        self.__root = Tk()
-        self.__root.title = "Maze"
-        self.__canvas = Canvas(self.__root, bg = "white", width = width, height = height)
-        self.__canvas.pack(fill=BOTH, expand=1)
-        self.__isRunning = False
-        self.__root.protocol("WM_DELETE_WINDOW", self.close)
-    
-    def redraw(self):
-        self.__root.update_idletasks()
-        self.__root.update()
-
-    def wait_for_close(self):
-        self.__isRunning = True
-        while (self.__isRunning):
-            self.redraw()
-    
-    def close(self):
-        self.__isRunning = False
-
-    def draw_line(self, line, color = "black"):
-        line.draw(self.__canvas, color)
-
-class Point:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-class Line:
-    def __init__(self, point_1: Point, point_2: Point):
-        self.__x1 = point_1.x
-        self.__y1 = point_1.y
-
-        self.__x2 = point_2.x
-        self.__y2 = point_2.y
-    
-    def draw(self, canvas: Canvas, color):
-        canvas.create_line(self.__x1, self.__y1, self.__x2, self.__y2, fill= color, width = 2)
+from cardinal import *
+from graphics import *
 
 class Cell:
     def __init__(self, x1, y1, x2, y2, window: Window, left_wall = True, right_wall = True, top_wall = True, bottom_wall = True):
@@ -74,8 +35,8 @@ class Cell:
             self.__win.draw_line(self.bottom_wall)
 
     def draw_move(self, to_cell, undo = False):
+        path = Line(self.middle_of_cell, to_cell.middle_of_cell)
         if undo:
-            Line(self.middle_of_cell, to_cell.middle_of_cell).draw(self.__win.__canvas, "gray")
+            self.__win.draw_line(path, "gray")
         else:
-            Line(self.middle_of_cell, to_cell.middle_of_cell).draw(self.__win.__canvas, "red")
-    
+            self.__win.draw_line(path, "red")

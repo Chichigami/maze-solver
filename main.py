@@ -1,6 +1,7 @@
 from cardinal import *
 from graphics import *
 from cell import *
+from maze import *
 
 def main():
     win = Window(800, 600)
@@ -11,6 +12,7 @@ def main():
     # cell_2.draw(20, 10, 30, 20, True, True, False, False)
     # cell_1.draw_move(cell_2)
 
+    Maze(10, 10, 10, 10, 10, 10, win)
     win.wait_for_close()
 
 main()

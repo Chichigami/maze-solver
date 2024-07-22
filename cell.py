@@ -10,6 +10,7 @@ class Cell:
         self.has_bottom_wall = True
         self.has_left_wall = True
 
+        self.visited = False
 
     def draw(self, x_top_left, y_top_left, x_bottom_right, y_bottom_right):
         self.__top_left_point = Point(x_top_left, y_top_left)

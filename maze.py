@@ -1,19 +1,20 @@
+from typing import List
 from cell import *
-from graphics import *
-from cardinal import *
 import time
+import random
 
 class Maze:
-    def __init__(self, start_x, start_y, num_rows, num_cols, cell_size_x, cell_size_y, window: Window = None):
+    def __init__(self, start_x, start_y, num_rows, num_cols, cell_size_x, cell_size_y, window: Window = None, seed = None):
         self.off_put_x = start_x
         self.off_put_y = start_y
-
         self.rows = num_rows
         self.cols = num_cols
-
         self.size_x = cell_size_x
         self.size_y = cell_size_y
         self.win = window
+        self.seed = seed
+        if seed is not None:
+            self.seed = random.seed(seed)
 
         self._cells = []
         self._create_cell()
@@ -27,12 +28,6 @@ class Maze:
             for row in range(self.rows):
                 self._draw_cell(col, row)
     
-    def _break_entrance_and_exit(self):
-        #entrance top left cell and exit bottom right cell
-        self._cells[0][0].has_top_wall = False
-        self._draw_cell(0,0)
-        self._cells[self.cols-1][self.rows-1].has_bottom_wall = False
-        self._draw_cell(self.cols-1, self.rows-1)
 
     def _draw_cell(self, i, j):
         if self.win is None:
@@ -53,3 +48,30 @@ class Maze:
         self.win.redraw()
         #time.sleep(0.05)
     
+    def _break_entrance_and_exit(self):
+        #entrance top left cell and exit bottom right cell
+        self._cells[0][0].has_top_wall = False
+        self._draw_cell(0,0)
+        self._cells[self.cols-1][self.rows-1].has_bottom_wall = False
+        self._draw_cell(self.cols-1, self.rows-1)
+    
+    def _break_walls_r(self, i, j):
+        current: Cell = self._cells[i][j]; current.visited = True
+        while True:
+            need_to_visit: List[Cell] = []
+            adjacent_cells: List[Cell] = [self._cells[i-1][j],
+                              self._cells[i][j-1],
+                              self._cells[i+1][j],
+                              self._cells[i][j+1]
+                            ]
+        
+            for cell in adjacent_cells:
+                if cell.visited is False:
+                    need_to_visit.append(cell)
+        
+            if not need_to_visit:
+                return
+
+
+            next_cell = random.choice(need_to_visit)
+            
